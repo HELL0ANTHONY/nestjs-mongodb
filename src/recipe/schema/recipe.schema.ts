@@ -19,5 +19,6 @@ export const recipeSchema = new Schema({
     default: 0
   },
   steps: [String],
-  dishTypes: [String]
+  dishTypes: [String],
+  types: [String]
 });
