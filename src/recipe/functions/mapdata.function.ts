@@ -1,30 +1,23 @@
-// import { Recipe } from "../interfaces/recipe.interface";
+import { Recipe } from "../interfaces/recipe.interface";
 
-const types = (types: any): Array<string> => types.map(type => type);
-
-const steps = (steps: { steps: any }[]): string[][] =>
+const steps = (steps: { steps: Array<object> }[]): string[][] =>
   steps.map(({ steps }) => steps.map(({ step }: { step: string }) => step));
 
-const mapData = (object: object) => {
+const mapData = (object: object): Array<Recipe> => {
   const recipeInfo = Array.isArray(object) ? object : [object];
-  console.log(recipeInfo);
-
-  return (
-    object &&
+  return (object &&
     recipeInfo.map((recipe: any) => {
       return {
-        id: recipe?.id,
         name: recipe?.title,
         image: recipe?.image,
         summary: recipe?.summary,
-        Types: types(recipe?.diets),
-        dishTypes: recipe?.dishTypes,
         healthScore: recipe?.healthScore,
         punctuation: recipe?.spoonacularScore,
+        types: recipe?.diets,
+        dishTypes: recipe?.dishTypes,
         steps: steps(recipe?.analyzedInstructions).flat()
       };
-    })
-  );
+    })) as Recipe[];
 };
 
 export default mapData;

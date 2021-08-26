@@ -1,4 +1,5 @@
-export interface Recipe {
+import { Document } from "mongoose";
+export interface Recipe extends Document {
   readonly id?: string;
   readonly name: string;
   readonly summary: string;

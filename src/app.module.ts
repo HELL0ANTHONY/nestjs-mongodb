@@ -4,9 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { RecipeModule } from "./recipe/recipe.module";
-import { dataFromAPI } from "./recipe/functions/getDataFromApi.function";
 
-dataFromAPI();
 @Module({
   imports: [
     ConfigModule.forRoot(),

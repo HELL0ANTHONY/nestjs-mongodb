@@ -12,17 +12,15 @@ const axiosHelper = async (url: string) => {
   return response.data;
 };
 
-export const dataFromAPI = async () => {
-  const NUMBER_OF_REQUESTS = 2;
-  const requestToAPI = [...Array(NUMBER_OF_REQUESTS + 1).keys()].map(
-    (id: number) => axiosHelper(baseURL(id))
-  );
+export const dataFromAPI = async (numberOfRequest: number) => {
+  const requestToAPI = [...Array(numberOfRequest + 1).keys()]
+    .slice(1)
+    .map((id: number) => axiosHelper(baseURL(id)));
 
   const resolveOfPromise = await Promise.allSettled(requestToAPI);
   const fullFilled = resolveOfPromise.filter(
     ({ status }) => status !== "rejected"
   ) as R[];
 
-  const mapped = mapData(fullFilled.map(e => e.value));
-  console.log(mapped);
+  return mapData(fullFilled.map(e => e.value));
 };
