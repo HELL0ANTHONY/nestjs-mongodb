@@ -1,8 +1,8 @@
 import { Document } from "mongoose";
 export interface Recipe extends Document {
-  readonly id?: string;
+  readonly _id?: string;
   readonly name: string;
-  readonly summary: string;
+  readonly summary?: string;
   readonly image?: string;
   readonly punctuation?: number;
   readonly healthScore?: number;
