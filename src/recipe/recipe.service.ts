@@ -28,6 +28,15 @@ export class RecipeService {
     }
   }
 
+  async createRecipe(newRecipe: RecipeDTO): Promise<Recipe> {
+    try {
+      const recipe = new this.recipeModel(newRecipe);
+      return await recipe.save();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getDetails(id: string): Promise<Recipe | undefined> {
     try {
       return await this.recipeModel.findById(id);

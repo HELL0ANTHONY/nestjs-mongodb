@@ -1,17 +1,39 @@
 import { Response } from "express";
-import { Controller, Get, HttpStatus, Res, Param } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Res,
+  Param,
+  Post,
+  Body
+} from "@nestjs/common";
 import { RecipeService } from "./recipe.service";
 import { Recipe } from "./interfaces/recipe.interface";
+import { RecipeDTO } from "./dto/recipe.dto";
 
 @Controller("recipe")
 export class RecipeController {
   constructor(private recipeService: RecipeService) {}
 
-  @Get("/run")
+  @Get("run")
   async runApp(@Res() res: Response): Promise<Response<object> | undefined> {
     try {
       const recipes = await this.recipeService.populateDB(3);
       return res.status(HttpStatus.OK).json({ recipes });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  @Post("create")
+  async createRecipe(
+    @Res() res: Response,
+    @Body() newRecipe: RecipeDTO
+  ): Promise<Response<Recipe | undefined>> {
+    try {
+      const recipe = await this.recipeService.createRecipe(newRecipe);
+      return res.status(HttpStatus.OK).json(recipe);
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +51,7 @@ export class RecipeController {
     }
   }
 
-  @Get("/types")
+  @Get("types")
   async getTypes(
     @Res() res: Response
   ): Promise<Response<Array<string>> | undefined> {
@@ -41,7 +63,7 @@ export class RecipeController {
     }
   }
 
-  @Get("/details/:id")
+  @Get("details/:id")
   async recipeDetail(@Res() res: Response, @Param("id") id: string) {
     try {
       const recipeDetail = await this.recipeService.getDetails(id);
